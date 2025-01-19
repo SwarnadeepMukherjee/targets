@@ -32,3 +32,8 @@ section{
     font-size: 30px;
     color: whitesmoke;
 }
+@media (max-width: 768px) {
+    .abv-text{
+        font-size: 40px;
+    }
+}

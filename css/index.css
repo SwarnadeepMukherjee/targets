@@ -92,3 +92,17 @@ body main div section p{
     font-style: normal;
     font-size: 40px;
 }
+
+@media (max-width: 768px) {
+    .intro h1{
+        font-size: 40px;
+    }
+    .intro h2{
+        font-size: 10px;
+    }
+    .txt-brk p{
+        margin: 2px 30px;
+        font-size: 30px;
+    }
+}
+
