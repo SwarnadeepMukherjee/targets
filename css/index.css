@@ -93,7 +93,7 @@ body main div section p{
     font-size: 40px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 2300px) {
     .intro h1{
         font-size: 40px;
     }
@@ -103,6 +103,12 @@ body main div section p{
     .txt-brk p{
         margin: 2px 30px;
         font-size: 30px;
+    }
+    .content:hover{
+        transform: scale(1.0);
+    }
+    .content section:hover{
+        transform: scale(0.7);
     }
 }
 

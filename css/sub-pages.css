@@ -4,6 +4,9 @@
     margin: 0;
     padding: 0;
 }
+html{
+    background-color: black;
+}
 section{
     display: flex;
 }
@@ -32,7 +35,7 @@ section{
     font-size: 30px;
     color: whitesmoke;
 }
-@media (max-width: 768px) {
+@media (max-width: 2300px) {
     .abv-text{
         font-size: 40px;
     }
