@@ -1,68 +1,837 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>TARGETS - Program</title>
-    <link rel="stylesheet" href="/targets/css/nav.css">
-    <link rel="stylesheet" href="/targets/css/index.css">
-    <link rel="stylesheet" href="/targets/css/utils.css">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>90 Day Elite Transformation Challenge</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@400;500&family=Barlow+Condensed:wght@300;400;600;700;900&display=swap"
+        rel="stylesheet" />
+    <style>
+        :root {
+            --black: #080808;
+            --deep: #0e0e0e;
+            --panel: #131313;
+            --border: #1f1f1f;
+            --red: #c0392b;
+            --red-hot: #e74c3c;
+            --red-dim: #7b1c12;
+            --white: #f0ede8;
+            --grey: #888;
+            --dim: #444;
+        }
+
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background: var(--black);
+            color: var(--white);
+            font-family: 'Barlow Condensed', sans-serif;
+            font-weight: 400;
+            line-height: 1.5;
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* ── NOISE OVERLAY ── */
+        body::before {
+            content: '';
+            position: fixed;
+            inset: 0;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='1'/%3E%3C/svg%3E");
+            opacity: 0.028;
+            pointer-events: none;
+            z-index: 9999;
+        }
+
+        /* ── PAGE WRAPPER ── */
+        .page {
+            max-width: 860px;
+            margin: 0 auto;
+            padding: 0 24px 80px;
+        }
+
+        /* ── HEADER ── */
+        header {
+            border-bottom: 1px solid var(--red-dim);
+            padding: 64px 0 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::after {
+            content: '90';
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 420px;
+            color: var(--red);
+            opacity: 0.04;
+            position: absolute;
+            right: -40px;
+            top: -80px;
+            line-height: 1;
+            pointer-events: none;
+            user-select: none;
+        }
+
+        .label {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.18em;
+            text-transform: uppercase;
+            color: var(--red);
+            margin-bottom: 16px;
+        }
+
+        h1 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(64px, 10vw, 108px);
+            line-height: 0.92;
+            letter-spacing: 0.01em;
+            color: var(--white);
+        }
+
+        h1 span {
+            color: var(--red);
+        }
+
+        .tagline {
+            margin-top: 24px;
+            font-size: 16px;
+            font-weight: 300;
+            color: var(--grey);
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+            max-width: 480px;
+        }
+
+        /* ── SECTIONS ── */
+        section {
+            margin-top: 56px;
+        }
+
+        .section-head {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+        }
+
+        .section-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 10px;
+            color: var(--red);
+            letter-spacing: 0.15em;
+            opacity: 0.7;
+            min-width: 32px;
+        }
+
+        h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 36px;
+            letter-spacing: 0.06em;
+            color: var(--white);
+        }
+
+        .divider {
+            flex: 1;
+            height: 1px;
+            background: var(--border);
+        }
+
+        /* ── CORE RULE ── */
+        .core-rule {
+            background: var(--red);
+            padding: 28px 32px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .core-rule::before {
+            content: 'LAW';
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 180px;
+            color: rgba(0, 0, 0, 0.12);
+            position: absolute;
+            right: -10px;
+            top: -30px;
+            line-height: 1;
+            pointer-events: none;
+        }
+
+        .core-rule p {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(22px, 4vw, 34px);
+            letter-spacing: 0.04em;
+            line-height: 1.2;
+            color: #fff;
+            position: relative;
+            z-index: 1;
+            max-width: 600px;
+        }
+
+        /* ── TWO COL ── */
+        .two-col {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2px;
+        }
+
+        .col-block {
+            background: var(--panel);
+            padding: 24px 28px;
+        }
+
+        .col-block h3 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 20px;
+            letter-spacing: 0.1em;
+            margin-bottom: 16px;
+            color: var(--grey);
+        }
+
+        .col-block.banned h3 {
+            color: var(--red);
+        }
+
+        .col-block.allowed h3 {
+            color: #4caf50;
+        }
+
+        .col-block ul {
+            list-style: none;
+        }
+
+        .col-block ul li {
+            font-size: 15px;
+            font-weight: 400;
+            padding: 5px 0;
+            border-bottom: 1px solid var(--border);
+            color: var(--white);
+            letter-spacing: 0.02em;
+        }
+
+        .col-block ul li:last-child {
+            border-bottom: none;
+        }
+
+        .col-block.banned ul li::before {
+            content: '✕  ';
+            color: var(--red);
+            font-size: 11px;
+        }
+
+        .col-block.allowed ul li::before {
+            content: '✓  ';
+            color: #4caf50;
+            font-size: 11px;
+        }
+
+        /* ── NUMBERED LIST ── */
+        .rule-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .rule-list li {
+            background: var(--panel);
+            padding: 16px 24px;
+            display: flex;
+            align-items: flex-start;
+            gap: 20px;
+            transition: background 0.15s;
+        }
+
+        .rule-list li:hover {
+            background: #181818;
+        }
+
+        .rule-num {
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            color: var(--red);
+            min-width: 28px;
+            padding-top: 2px;
+            opacity: 0.8;
+        }
+
+        .rule-text {
+            font-size: 16px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            line-height: 1.4;
+        }
+
+        .rule-sub {
+            font-size: 13px;
+            font-weight: 300;
+            color: var(--grey);
+            margin-top: 2px;
+            letter-spacing: 0.02em;
+        }
+
+        /* ── PUNISHMENT SYSTEM ── */
+        .punish-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .punish-row {
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            gap: 2px;
+        }
+
+        .punish-trigger {
+            background: #160c0b;
+            padding: 18px 22px;
+            display: flex;
+            align-items: center;
+        }
+
+        .punish-trigger span {
+            font-family: 'DM Mono', monospace;
+            font-size: 12px;
+            color: var(--red);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            line-height: 1.4;
+        }
+
+        .punish-consequence {
+            background: var(--panel);
+            padding: 18px 24px;
+            display: flex;
+            align-items: center;
+        }
+
+        .punish-consequence p {
+            font-size: 15px;
+            font-weight: 600;
+            letter-spacing: 0.03em;
+            line-height: 1.4;
+        }
+
+        .punish-consequence .note {
+            font-size: 12px;
+            font-weight: 300;
+            color: var(--grey);
+            margin-top: 3px;
+            letter-spacing: 0.02em;
+        }
+
+        .punish-row.terminal .punish-trigger {
+            background: var(--red-dim);
+        }
+
+        .punish-row.terminal .punish-consequence {
+            background: #1a0a08;
+            border-left: 2px solid var(--red);
+        }
+
+        .punish-row.terminal .punish-consequence p {
+            color: var(--red-hot);
+        }
+
+        /* ── MINDSET LAWS ── */
+        .law-block {
+            background: var(--panel);
+            padding: 32px;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
+        }
+
+        .law-item {
+            padding: 14px 0;
+            border-bottom: 1px solid var(--border);
+            font-size: 17px;
+            font-weight: 600;
+            letter-spacing: 0.04em;
+            line-height: 1.3;
+            display: flex;
+            gap: 16px;
+            align-items: flex-start;
+        }
+
+        .law-item:last-child {
+            border-bottom: none;
+        }
+
+        .law-arrow {
+            color: var(--red);
+            font-size: 14px;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+
+        /* ── KNOWLEDGE GRID ── */
+        .knowledge-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+            gap: 2px;
+        }
+
+        .knowledge-pill {
+            background: var(--panel);
+            padding: 14px 16px;
+            font-family: 'DM Mono', monospace;
+            font-size: 11px;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            color: var(--grey);
+            text-align: center;
+            transition: background 0.15s, color 0.15s;
+        }
+
+        .knowledge-pill:hover {
+            background: var(--red-dim);
+            color: var(--white);
+        }
+
+        /* ── WEEKLY ── */
+        .review-block {
+            background: var(--panel);
+            padding: 28px 32px;
+            border-left: 3px solid var(--red);
+        }
+
+        .review-block p {
+            font-size: 15px;
+            font-weight: 300;
+            color: var(--grey);
+            letter-spacing: 0.03em;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .review-block p:last-child {
+            margin-bottom: 0;
+        }
+
+        .review-block strong {
+            color: var(--white);
+            font-weight: 600;
+        }
+
+        /* ── FINAL STATEMENT ── */
+        .final {
+            margin-top: 72px;
+            border-top: 1px solid var(--border);
+            padding-top: 48px;
+            text-align: center;
+        }
+
+        .final h2 {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(36px, 6vw, 64px);
+            letter-spacing: 0.06em;
+            line-height: 1.1;
+            color: var(--white);
+            margin-bottom: 16px;
+        }
+
+        .final h2 span {
+            color: var(--red);
+        }
+
+        .final p {
+            font-size: 14px;
+            font-weight: 300;
+            color: var(--dim);
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        /* ── SCROLL REVEAL ── */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.5s ease, transform 0.5s ease;
+        }
+
+        .reveal.visible {
+            opacity: 1;
+            transform: none;
+        }
+
+        /* ── RESPONSIVE ── */
+        @media (max-width: 600px) {
+            .two-col {
+                grid-template-columns: 1fr;
+            }
+
+            .punish-row {
+                grid-template-columns: 1fr;
+            }
+
+            .punish-trigger {
+                padding: 14px 18px;
+            }
+
+            header::after {
+                font-size: 220px;
+            }
+        }
+    </style>
 </head>
-<div class="for-intro-bg">
-<header>
-    <nav>
-        <ul>
-            <li><a href="/targets/index.html">Home</a></li>
-            <li><a href="/targets/explore.html">Explore</a></li>
-            <li><a href="#">Download</a></li>
-        </ul>
-    </nav>
-</header>
+
 <body>
-    <main>
-        <div class="intro">
-            <h1 class="all-center">T A R G E T S</h1>
-            <h2 class="all-right">-by Swarnadeep Mukherjee</h2>
+    <div class="page">
+
+        <!-- HEADER -->
+        <header>
+            <p class="label">Protocol v1.0 &nbsp;·&nbsp; Duration: 90 Days &nbsp;·&nbsp; Classification: Elite</p>
+            <h1>Elite<br><span>Trans&shy;formation</span><br>Challenge</h1>
+            <p class="tagline">Built for the few. Finished by fewer. No exceptions. No negotiations.</p>
+        </header>
+
+        <!-- CORE LAW -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">00</span>
+                <h2>The Core Law</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="core-rule">
+                <p>Zero cheap dopamine. If it exists only to stimulate, distract, or kill time — it is forbidden. No
+                    exceptions. No negotiations.</p>
+            </div>
+        </section>
+
+        <!-- BANNED vs ALLOWED -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">01</span>
+                <h2>Content Rules</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="two-col">
+                <div class="col-block banned">
+                    <h3>Banned</h3>
+                    <ul>
+                        <li>Doomscrolling of any kind</li>
+                        <li>Reels, Shorts, TikTok</li>
+                        <li>Random meme browsing</li>
+                        <li>Binge entertainment</li>
+                        <li>Pornography</li>
+                        <li>Mindless social media browsing</li>
+                        <li>Any content consumed to escape boredom</li>
+                    </ul>
+                </div>
+                <div class="col-block allowed">
+                    <h3>Allowed</h3>
+                    <ul>
+                        <li>YouTube: learning, skills, finance, business, lectures, documentaries only</li>
+                        <li>Music: only when it does not break focus</li>
+                        <li>Internet: purposeful use only</li>
+                        <li>Messaging: real communication only</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <!-- DAILY NON-NEGOTIABLES -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">02</span>
+                <h2>Daily Non-Negotiables</h2>
+                <div class="divider"></div>
+            </div>
+            <ul class="rule-list">
+                <li>
+                    <span class="rule-num">D-01</span>
+                    <div>
+                        <div class="rule-text">Intense Workout — Every Single Day</div>
+                        <div class="rule-sub">Start and finish on time. No unnecessary long breaks. No laziness.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-02</span>
+                    <div>
+                        <div class="rule-text">Fixed Sleep and Wake Time</div>
+                        <div class="rule-sub">Set it once. Never deviate. Sleep is a non-negotiable performance tool.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-03</span>
+                    <div>
+                        <div class="rule-text">Read 1 Chapter</div>
+                        <div class="rule-sub">Self-improvement, growth, business, or knowledge. No fiction. No fluff.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-04</span>
+                    <div>
+                        <div class="rule-text">120g+ Protein. Zero Junk.</div>
+                        <div class="rule-sub">Junk food is banned. Exception only for genuine social events or occasions
+                            — not cravings.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-05</span>
+                    <div>
+                        <div class="rule-text">Drink Adequate Water</div>
+                        <div class="rule-sub">Calibrated to your body weight, climate, and training intensity. No
+                            guessing.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-06</span>
+                    <div>
+                        <div class="rule-text">No Pornography. No Compulsive Masturbation.</div>
+                        <div class="rule-sub">Full stop. No grey area here.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-07</span>
+                    <div>
+                        <div class="rule-text">Grooming and Hygiene — Maintained Daily</div>
+                        <div class="rule-sub">Discipline starts with how you carry yourself.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-08</span>
+                    <div>
+                        <div class="rule-text">3+ Hours of Focused Academic Study</div>
+                        <div class="rule-sub">Deep focus only. Phone away. No multitasking. Timer running.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-09</span>
+                    <div>
+                        <div class="rule-text">Learn One Topic from the Global Knowledge List</div>
+                        <div class="rule-sub">Minimum 20 minutes of deliberate learning on a topic from Section 05.
+                        </div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-10</span>
+                    <div>
+                        <div class="rule-text">Work on One Meaningful Project</div>
+                        <div class="rule-sub">Business, coding, writing, fitness, content, research, or any skill that
+                            compounds.</div>
+                    </div>
+                </li>
+                <li>
+                    <span class="rule-num">D-11</span>
+                    <div>
+                        <div class="rule-text">Sit in Boredom. Do Not Reach.</div>
+                        <div class="rule-sub">When idle with nothing to do — tolerate it. The reflex to grab your phone
+                            is the enemy.</div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+
+        <!-- WEEKLY -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">03</span>
+                <h2>Weekly Non-Negotiable</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="review-block">
+                <p>Once per week, conduct a <strong>ruthless self-audit</strong>. No kindness. No excuses. No skipping.
+                </p>
+                <p>Review: <strong>What rules did you break? What excuses did you make? What habits slipped? Where did
+                        your confidence waver? What needs to change this week?</strong></p>
+                <p>Write it down. Fix it. Move forward. The review is not optional — it is a non-negotiable listed rule.
+                    Missing it triggers a punishment.</p>
+            </div>
+        </section>
+
+        <!-- PUNISHMENT SYSTEM -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">04</span>
+                <h2>Failure &amp; Punishment System</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="punish-grid">
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>1 Violation<br>in a Day</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>200 extra pushups — same day, before sleep.</p>
+                            <div class="note">No skipping the punishment. The violation + punishment both happen that
+                                day.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>2 Violations<br>in a Day</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>500 pushups + 1 extra chapter to read + YouTube banned for 24 hours.</p>
+                            <div class="note">The day is marked a Warning Day and logged.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>3+ Violations<br>in a Day</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>The day is VOID. It does not count toward 90. The clock does not move.</p>
+                            <div class="note">Complete double requirements the following day to continue the streak.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>Any Banned<br>Content Consumed</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>48-hour Blackout Mode: zero entertainment, double study hours, double workout duration.
+                            </p>
+                            <div class="note">Consumed pornography specifically triggers a mandatory 7-day protocol
+                                reset.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>2+ Void Days<br>in One Week</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>The entire week restarts. All days from that week are erased from your count.</p>
+                            <div class="note">You keep going — you do not stop — but the clock reverts to the start of
+                                that week.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row">
+                    <div class="punish-trigger"><span>Missed<br>Weekly Review</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>Add 3 days to the total challenge length. 90 days becomes 93. Miss again: 96.</p>
+                            <div class="note">The review is a rule. Breaking it is a violation like any other.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row terminal">
+                    <div class="punish-trigger"><span>3 Full Week<br>Restarts</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>The challenge ends. You are not ready. Return in 6 months with more discipline than you
+                                have now.</p>
+                            <div class="note">This is not failure — it is honest feedback. Come back stronger.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="punish-row terminal">
+                    <div class="punish-trigger"><span>Quitting</span></div>
+                    <div class="punish-consequence">
+                        <div>
+                            <p>You start from Day 1 with all previous progress erased. There is no soft exit.</p>
+                            <div class="note">Average people quit. That is who this challenge was designed to eliminate.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- GLOBAL KNOWLEDGE -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">05</span>
+                <h2>Global Knowledge Goal</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="knowledge-grid">
+                <div class="knowledge-pill">Geopolitics</div>
+                <div class="knowledge-pill">Politics</div>
+                <div class="knowledge-pill">History</div>
+                <div class="knowledge-pill">Geography</div>
+                <div class="knowledge-pill">Physics</div>
+                <div class="knowledge-pill">Chemistry</div>
+                <div class="knowledge-pill">Biology</div>
+                <div class="knowledge-pill">Psychology</div>
+                <div class="knowledge-pill">Computer Sci</div>
+                <div class="knowledge-pill">AI</div>
+                <div class="knowledge-pill">Business</div>
+                <div class="knowledge-pill">Economics</div>
+                <div class="knowledge-pill">Finance</div>
+                <div class="knowledge-pill">Philosophy</div>
+                <div class="knowledge-pill">Communication</div>
+                <div class="knowledge-pill">Strategy</div>
+                <div class="knowledge-pill">Technology</div>
+                <div class="knowledge-pill">Sports</div>
+                <div class="knowledge-pill">Health</div>
+                <div class="knowledge-pill">Society</div>
+            </div>
+        </section>
+
+        <!-- MINDSET -->
+        <section class="reveal">
+            <div class="section-head">
+                <span class="section-num">06</span>
+                <h2>Mindset Laws</h2>
+                <div class="divider"></div>
+            </div>
+            <div class="law-block">
+                <div class="law-item"><span class="law-arrow">▶</span> Emotions do not get a vote. The work happens
+                    regardless of how you feel.</div>
+                <div class="law-item"><span class="law-arrow">▶</span> Fear nothing — embarrassment, failure, judgment,
+                    criticism. None of it stops you.</div>
+                <div class="law-item"><span class="law-arrow">▶</span> You are not here to be liked by everyone. Stop
+                    living for approval.</div>
+                <div class="law-item"><span class="law-arrow">▶</span> Be honest. Be direct. Be fully accountable — to
+                    yourself first.</div>
+                <div class="law-item"><span class="law-arrow">▶</span> Respect people. Let no one control you through
+                    social pressure.</div>
+                <div class="law-item"><span class="law-arrow">▶</span> If it has to be done — do it. No emotional
+                    negotiation. No delay.</div>
+            </div>
+        </section>
+
+        <!-- FINAL -->
+        <div class="final reveal">
+            <h2>90 Days.<br><span>No Excuses.</span><br>No Shortcuts.</h2>
+            <p>Either you finish it, or it finishes you.</p>
         </div>
-</div>
-        <div class="for-bg">
-            <div class="txt-brk">
-                <br>
-                <p class="all-center">What is TARGETS?<p>
-                <p class="all-center">"TARGETS is a transformative 75-day program designed to help you unlock your full potential and become the best version of yourself"</p>
-                <br>
-            </div>
-            <div class="content">
-                <section class="all-center">
-                    <p class="abv">T</p>
-                    <a href="/targets/target-subpages/tracking.html" class="abv-text">Tracking</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">A</p>
-                    <a href="/targets/target-subpages/academics.html" class="abv-text">Academics</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">R</p>
-                    <a href="/targets/target-subpages/reading.html" class="abv-text">Reading</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">G</p>
-                    <a href="/targets/target-subpages/gameplan.html" class="abv-text">Gameplan</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">E</p>
-                    <a href="/targets/target-subpages/eat-healthy.html" class="abv-text">Eat Healthy</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">T</p>
-                    <a href="/targets/target-subpages/training.html" class="abv-text">Training</a>
-                </section>
-                <section class="all-center">
-                    <p class="abv">S</p>
-                    <a href="/targets/target-subpages/sleep.html" class="abv-text">Sleep</a>
-                </section>
-            </div>
-    </main>
+
     </div>
+
+    <script>
+        // Scroll reveal
+        const reveals = document.querySelectorAll('.reveal');
+        const io = new IntersectionObserver((entries) => {
+            entries.forEach(e => {
+                if (e.isIntersecting) {
+                    e.target.classList.add('visible');
+                    io.unobserve(e.target);
+                }
+            });
+        }, { threshold: 0.08 });
+        reveals.forEach(el => io.observe(el));
+    </script>
 </body>
+
 </html>
